@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from ollama import chat, ChatResponse
+from ollama import generate
 
 res = requests.get("https://tldr.tech/webdev/2025-09-29")
 parser = BeautifulSoup(res.text, "html.parser")
