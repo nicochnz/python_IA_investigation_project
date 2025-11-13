@@ -67,7 +67,7 @@ if st.button("Envoyer"):
 
         if accused_name.lower() == st.session_state.culprit["name"].lower():
             st.success(f"Bravo ! {accused_name} était bien le coupable !")
-            st.session_state.history.append(f"Tu as accusé {accused_name}Correct !")
+            st.session_state.history.append(f"Tu as accusé {accused_name} Correct !")
         else:
             st.session_state.erreurs += 1
             if st.session_state.erreurs >= 2:
