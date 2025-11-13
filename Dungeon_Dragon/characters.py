@@ -43,7 +43,6 @@ character_classes = [
     }
 ]
 
-# Messages de bienvenue par classe
 welcome_messages = {
     "Guerrier": (
         "Bienvenue, noble Guerrier ! Vous vous trouvez dans la taverne 'Le Dragon Doré' "

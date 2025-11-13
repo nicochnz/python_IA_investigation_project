@@ -1,4 +1,3 @@
-# draft_dungeon.py - Jeu D&D principal (version refactorisée)
 
 import streamlit as st
 from characters import character_classes
@@ -8,7 +7,6 @@ from game_logic import (
     check_game_over, reset_game, extract_choices_from_message
 )
 
-# Configuration de la page
 st.set_page_config(
     page_title="🏰 Aventures D&D",
     page_icon="⚔️",
@@ -16,16 +14,13 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Application du thème rétro fantasy
 apply_retro_fantasy_theme()
 create_title()
 
-# Initialisation du jeu
 initialize_game_state()
 
-# === SÉLECTION DE PERSONNAGE ===
 if st.session_state.current_scene == "character_selection":
-    st.subheader("🎭 Choisissez votre héros :")
+    st.subheader(" Choisissez votre héros :")
     
     for i, char_class in enumerate(character_classes):
         with st.expander(f"**{char_class['name']}** - {char_class['description']}"):
@@ -50,7 +45,6 @@ if st.session_state.current_scene == "game_start":
     
     st.subheader(f"🎮 Aventure de {character['name']}")
     
-    # Affichage des stats stylisées
     create_stats_display(
         st.session_state.player_stats["PV"],
         st.session_state.player_stats["Mana"],
@@ -59,18 +53,14 @@ if st.session_state.current_scene == "game_start":
     
     st.write("---")
     
-    # Initialisation des messages IA
     initialize_ai_messages(character)
     
-    # Affichage de l'historique stylisé
     create_history_display(st.session_state.game_history)
     
     st.write("---")
     
-    # Interface de choix
-    st.subheader("🎯 Vos choix")
+    st.subheader("Vos choix")
     
-    # Détection des choix dans le dernier message
     last_message = st.session_state.game_history[-1] if st.session_state.game_history else ""
     choices = extract_choices_from_message(last_message)
     
@@ -89,10 +79,8 @@ if st.session_state.current_scene == "game_start":
                 else:
                     st.rerun()
     
-    # Bouton pour recommencer
     if st.button("🔄 Recommencer l'aventure"):
         reset_game()
 
-# === AFFICHAGE DE L'INVENTAIRE ===
 if st.session_state.game_initialized and st.session_state.inventory:
     create_inventory_display(st.session_state.inventory)

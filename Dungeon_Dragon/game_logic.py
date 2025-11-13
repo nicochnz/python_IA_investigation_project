@@ -1,4 +1,3 @@
-# game_logic.py - Logique de jeu et interactions IA
 
 import streamlit as st
 import random
@@ -17,7 +16,6 @@ def initialize_game_state():
         st.session_state.scene_count = 0
 
 def initialize_ai_messages(character):
-    """Initialise les messages pour l'IA"""
     if "messages" not in st.session_state:
         st.session_state.messages = [
             {
@@ -43,29 +41,24 @@ def initialize_ai_messages(character):
             }
         ]
         
-        # Message de bienvenue initial
         welcome_message = get_welcome_message(character['name'])
         st.session_state.game_history.append(welcome_message)
         st.session_state.messages.append({"role": "assistant", "content": welcome_message})
 
 def process_player_choice(selected_choice):
-    """Traite le choix du joueur et génère une réponse IA"""
-    # Ajouter le choix du joueur au contexte
+
     player_action = f"Le joueur choisit : {selected_choice}"
     st.session_state.messages.append({"role": "user", "content": player_action})
     
-    # Générer la réponse de l'IA
     try:
         with st.spinner("🎲 Le Maître de Donjon réfléchit..."):
             response: ChatResponse = chat(model="phi3:mini", messages=st.session_state.messages)
         ai_response = response["message"]["content"]
         
-        # Ajouter la réponse à l'historique
         st.session_state.game_history.append(ai_response)
         st.session_state.messages.append({"role": "assistant", "content": ai_response})
         st.session_state.scene_count += 1
         
-        # Mise à jour des stats basée sur la réponse
         update_player_stats(ai_response)
         
         return True
@@ -78,7 +71,6 @@ def update_player_stats(ai_response):
     """Met à jour les stats du joueur basées sur la réponse IA"""
     response_lower = ai_response.lower()
     
-    # Dégâts subis
     if "blessé" in response_lower or "dégâts" in response_lower or "attaque" in response_lower:
         damage = random.randint(5, 15)
         st.session_state.player_stats["PV"] = max(0, st.session_state.player_stats["PV"] - damage)
